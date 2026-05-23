@@ -75,11 +75,15 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { title: "MCranks · Vanilla Minecraft PvP Tiers" },
       { name: "description", content: "MCranks — Competitive Vanilla Minecraft PvP tier list and leaderboard." },
       { name: "author", content: "MCranks" },
-      { property: "og:title", content: "MCranks · Vanilla Tiers" },
-      { property: "og:description", content: "Competitive Vanilla Minecraft PvP rankings." },
+      { property: "og:title", content: "MCranks · Vanilla Minecraft PvP Tiers" },
+      { property: "og:description", content: "MCranks — Competitive Vanilla Minecraft PvP tier list and leaderboard." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:title", content: "MCranks · Vanilla Minecraft PvP Tiers" },
+      { name: "twitter:description", content: "MCranks — Competitive Vanilla Minecraft PvP tier list and leaderboard." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/72e2c3c3-46ac-4fc9-ba38-ab0ce7497c85/id-preview-565e28a4--37e466e0-2266-43f3-bc2e-daab427672ae.lovable.app-1779564624642.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/72e2c3c3-46ac-4fc9-ba38-ab0ce7497c85/id-preview-565e28a4--37e466e0-2266-43f3-bc2e-daab427672ae.lovable.app-1779564624642.png" },
     ],
     links: [
       {
