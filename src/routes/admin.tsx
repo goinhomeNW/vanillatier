@@ -243,12 +243,10 @@ function Stat({ label, value }: { label: string; value: number }) {
 function PlayerEditor({ player, onClose }: { player: Player | null; onClose: () => void }) {
   const isNew = !player;
   const [username, setUsername] = useState(player?.username ?? "");
-  const [uuid, setUuid] = useState(player?.uuid ?? "");
   const [region, setRegion] = useState<Region>(player?.region ?? "NA");
   const [currentTier, setCurrentTier] = useState<TierKey | "">(player?.currentTier ?? "");
   const [peakTier, setPeakTier] = useState<TierKey | "">(player?.peakTier ?? "");
   const [retired, setRetired] = useState(player?.retired ?? false);
-  const [avatarUrl, setAvatarUrl] = useState(player?.avatarUrl ?? "");
   const [notes, setNotes] = useState(player?.notes ?? "");
 
   function save() {
@@ -260,20 +258,18 @@ function PlayerEditor({ player, onClose }: { player: Player | null; onClose: () 
     }
     if (isNew) {
       playersStore.upsert(newPlayer({
-        username, uuid, region, currentTier: curr, peakTier: peak, retired, notes, avatarUrl,
+        username, region, currentTier: curr, peakTier: peak, retired, notes,
       }));
       toast.success("Player added");
     } else {
       playersStore.upsert({
         ...player!,
         username: username.trim(),
-        uuid: uuid.trim(),
         region,
         currentTier: curr,
         peakTier: peak,
         retired,
         notes,
-        avatarUrl,
       });
       toast.success("Player updated");
     }
@@ -289,8 +285,9 @@ function PlayerEditor({ player, onClose }: { player: Player | null; onClose: () 
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <Field label="Username"><Input value={username} onChange={(e) => setUsername(e.target.value)} className="bg-secondary/40" /></Field>
-          <Field label="UUID"><Input value={uuid} onChange={(e) => setUuid(e.target.value)} placeholder="optional" className="bg-secondary/40 font-mono text-xs" /></Field>
+          <Field label="Username (NameMC)">
+            <Input value={username} onChange={(e) => setUsername(e.target.value)} placeholder="e.g. Notch" className="bg-secondary/40" />
+          </Field>
 
           <Field label="Region">
             <select value={region} onChange={(e) => setRegion(e.target.value as Region)} className="h-10 w-full px-3 rounded-md bg-secondary/40 border border-border/60 text-sm font-semibold">
@@ -298,7 +295,6 @@ function PlayerEditor({ player, onClose }: { player: Player | null; onClose: () 
             </select>
           </Field>
 
-          <Field label="Avatar URL"><Input value={avatarUrl} onChange={(e) => setAvatarUrl(e.target.value)} placeholder="optional override" className="bg-secondary/40" /></Field>
 
           <Field label="Current Tier">
             <TierSelect value={currentTier} onChange={setCurrentTier} />
