@@ -1,10 +1,7 @@
-import { Link, useLocation } from "@tanstack/react-router";
-import { Trophy, Shield } from "lucide-react";
+import { Link } from "@tanstack/react-router";
+import { Trophy } from "lucide-react";
 
 export function Header() {
-  const { pathname } = useLocation();
-  const onAdmin = pathname.startsWith("/admin");
-
   return (
     <header className="sticky top-0 z-40 glass-strong border-b border-border/60">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6">
@@ -26,13 +23,6 @@ export function Header() {
             activeOptions={{ exact: true }}
           >
             Leaderboard
-          </Link>
-          <Link
-            to="/admin"
-            className="ml-2 inline-flex items-center gap-1.5 px-3 py-2 rounded-md text-sm font-medium border border-border/70 hover:bg-white/5 transition"
-          >
-            <Shield className="h-4 w-4" />
-            {onAdmin ? "Admin" : "Admin"}
           </Link>
         </nav>
       </div>
