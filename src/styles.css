@@ -156,3 +156,18 @@
   }
   .animate-fade-in-up { animation: fade-in-up 0.4s ease-out both; }
 }
+
+.mcranks-ripple {
+  position: fixed;
+  pointer-events: none;
+  border-radius: 9999px;
+  background: radial-gradient(circle, oklch(0.72 0.16 230 / 0.55), oklch(0.45 0.22 260 / 0) 70%);
+  transform: scale(0.2);
+  opacity: 0.9;
+  animation: mcranks-ripple 0.55s ease-out forwards;
+  z-index: 9999;
+  mix-blend-mode: screen;
+}
+@keyframes mcranks-ripple {
+  to { transform: scale(3.2); opacity: 0; }
+}
