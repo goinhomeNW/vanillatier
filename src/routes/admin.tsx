@@ -321,7 +321,7 @@ function PlayerEditor({ player, onClose }: { player: Player | null; onClose: () 
           <div className="text-xs text-muted-foreground">
             Points: <b className="text-foreground">{
               peakTier ? pointsForPlayer({
-                id: "tmp", username, uuid, region,
+                id: "tmp", username, uuid: "", region,
                 currentTier: (currentTier || null) as TierKey | null,
                 peakTier: peakTier as TierKey,
                 retired, createdAt: 0, updatedAt: 0,
