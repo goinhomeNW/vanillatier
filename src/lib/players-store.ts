@@ -8,34 +8,47 @@ function seed(): Player[] {
   return [];
 }
 
+const EMPTY: Player[] = [];
+let cache: Player[] = EMPTY;
+let cacheRaw: string | null = null;
+
 function read(): Player[] {
-  if (typeof window === "undefined") return [];
+  if (typeof window === "undefined") return EMPTY;
   try {
-    const raw = localStorage.getItem(KEY);
+    let raw = localStorage.getItem(KEY);
     if (!raw) {
       const s = seed();
-      localStorage.setItem(KEY, JSON.stringify(s));
-      return s;
+      raw = JSON.stringify(s);
+      localStorage.setItem(KEY, raw);
     }
-    return JSON.parse(raw) as Player[];
+    if (raw !== cacheRaw) {
+      cacheRaw = raw;
+      cache = JSON.parse(raw) as Player[];
+    }
+    return cache;
   } catch {
-    return [];
+    return EMPTY;
   }
-}
-
-function write(players: Player[]) {
-  localStorage.setItem(KEY, JSON.stringify(players));
-  listeners.forEach((l) => l());
-  // cross-tab
-  window.dispatchEvent(new StorageEvent("storage", { key: KEY }));
 }
 
 const listeners = new Set<() => void>();
 
+function write(players: Player[]) {
+  const raw = JSON.stringify(players);
+  cacheRaw = raw;
+  cache = players;
+  localStorage.setItem(KEY, raw);
+  listeners.forEach((l) => l());
+  window.dispatchEvent(new StorageEvent("storage", { key: KEY }));
+}
+
 function subscribe(cb: () => void) {
   listeners.add(cb);
   const onStorage = (e: StorageEvent) => {
-    if (e.key === KEY || e.key === null) cb();
+    if (e.key === KEY || e.key === null) {
+      cacheRaw = null;
+      cb();
+    }
   };
   window.addEventListener("storage", onStorage);
   return () => {
@@ -48,7 +61,7 @@ export function usePlayers(): Player[] {
   return useSyncExternalStore(
     subscribe,
     () => read(),
-    () => [],
+    () => EMPTY,
   );
 }
 
