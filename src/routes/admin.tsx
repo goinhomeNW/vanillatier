@@ -249,31 +249,37 @@ function PlayerEditor({ player, onClose }: { player: Player | null; onClose: () 
   const [retired, setRetired] = useState(player?.retired ?? false);
   const [notes, setNotes] = useState(player?.notes ?? "");
 
-  function save() {
+  async function save() {
     if (!username.trim()) return toast.error("Username required");
     const peak = (peakTier || currentTier || null) as TierKey | null;
     const curr = (currentTier || null) as TierKey | null;
     if (retired && peak && !RETIRABLE_TIERS.includes(peak)) {
       return toast.error("Only LT2/HT2/LT1/HT1 players can retire");
     }
-    if (isNew) {
-      playersStore.upsert(newPlayer({
-        username, region, currentTier: curr, peakTier: peak, retired, notes,
-      }));
-      toast.success("Player added");
-    } else {
-      playersStore.upsert({
-        ...player!,
-        username: username.trim(),
-        region,
-        currentTier: curr,
-        peakTier: peak,
-        retired,
-        notes,
-      });
-      toast.success("Player updated");
+    try {
+      if (isNew) {
+        await playersStore.upsert(newPlayer({
+          username, region, currentTier: curr, peakTier: peak, retired, notes,
+        }));
+        toast.success("Player added");
+      } else {
+        await playersStore.upsert({
+          ...player!,
+          username: username.trim(),
+          region,
+          currentTier: curr,
+          peakTier: peak,
+          retired,
+          notes,
+        });
+        toast.success("Player updated");
+      }
+      onClose();
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : "Save failed";
+      console.error("[admin] save failed", err);
+      toast.error(`Save failed: ${msg}`);
     }
-    onClose();
   }
 
   return (
