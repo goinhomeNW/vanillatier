@@ -126,7 +126,6 @@ export const playersStore = {
   },
   async upsert(p: Player) {
     const payload = playerToInsert(p);
-    // If the cache already has this id, update by id. Otherwise insert.
     const existing = cache.find((x) => x.id === p.id);
     if (existing) {
       const { data, error } = await supabase
@@ -137,7 +136,7 @@ export const playersStore = {
         .single();
       if (error) {
         console.error("[players-store] update error", error);
-        return;
+        throw new Error(error.message);
       }
       const updated = rowToPlayer(data as Row);
       emit(sortByUpdated(cache.map((x) => (x.id === updated.id ? updated : x))));
@@ -149,7 +148,7 @@ export const playersStore = {
         .single();
       if (error) {
         console.error("[players-store] insert error", error);
-        return;
+        throw new Error(error.message);
       }
       const inserted = rowToPlayer(data as Row);
       emit(sortByUpdated([inserted, ...cache.filter((x) => x.id !== inserted.id)]));
