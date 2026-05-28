@@ -93,13 +93,27 @@ export function PlayerModal({ playerId, onClose }: Props) {
           <div className="text-xs uppercase tracking-[0.18em] text-muted-foreground mb-2">Tiers</div>
           <div className="glass rounded-xl px-4 py-3">
             <div className="flex flex-wrap items-center gap-2">
-              {sortedTiers.length === 0 && (
+              {!player.currentTier && (
                 <span className="text-sm text-muted-foreground">No tiers</span>
               )}
-              {sortedTiers.map((t) => (
-                <TierBadge key={t} tier={t} />
-              ))}
-              {Array.from({ length: Math.max(0, 8 - sortedTiers.length) }).map((_, i) => (
+              {player.currentTier && (
+                <TooltipProvider delayDuration={100}>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <span className="cursor-help">
+                        <TierBadge tier={player.currentTier} />
+                      </span>
+                    </TooltipTrigger>
+                    {player.peakTier && (
+                      <TooltipContent className="glass-strong border-border/60 bg-card/95 px-3 py-2 text-center">
+                        <div className="font-black tracking-tight">Peak {player.peakTier}</div>
+                        <div className="text-xs text-muted-foreground">{peakPts} points</div>
+                      </TooltipContent>
+                    )}
+                  </Tooltip>
+                </TooltipProvider>
+              )}
+              {Array.from({ length: player.currentTier ? 7 : 8 }).map((_, i) => (
                 <EmptyTierDot key={`e-${i}`} />
               ))}
             </div>
