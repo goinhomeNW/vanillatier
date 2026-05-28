@@ -77,22 +77,36 @@ function Column({
         {players.length === 0 && (
           <div className="px-4 py-6 text-center text-xs text-muted-foreground">No players</div>
         )}
-        {players.map((p) => (
-          <button
-            key={p.id}
-            onClick={() => onSelect(p.id)}
-            className="w-full flex items-center gap-2.5 px-3 py-2 hover:bg-white/[0.04] transition group text-left"
-          >
-            <img
-              src={avatarFor(p)}
-              alt=""
-              className="h-7 w-7 rounded bg-secondary/40 border border-border/60"
-              loading="lazy"
-            />
-            <span className="flex-1 truncate text-sm font-medium">{p.username}</span>
-            <ChevronsUp className="h-4 w-4 text-muted-foreground/60 group-hover:text-accent transition" />
-          </button>
-        ))}
+        {players.map((p) => {
+          const t = (p.peakTier ?? p.currentTier)!;
+          const ht = t.startsWith("HT");
+          return (
+            <button
+              key={p.id}
+              onClick={() => onSelect(p.id)}
+              className={
+                "w-full flex items-center gap-2.5 px-3 py-2 transition group text-left " +
+                (ht
+                  ? "bg-tier-ht/15 hover:bg-tier-ht/25"
+                  : "bg-tier-lt/[0.06] hover:bg-tier-lt/[0.12]")
+              }
+            >
+              <img
+                src={avatarFor(p)}
+                alt=""
+                className="h-7 w-7 rounded bg-secondary/40 border border-border/60"
+                loading="lazy"
+              />
+              <span className="flex-1 truncate text-sm font-medium">{p.username}</span>
+              <ChevronsUp
+                className={
+                  "h-4 w-4 transition " +
+                  (ht ? "text-tier-ht" : "text-tier-lt/70")
+                }
+              />
+            </button>
+          );
+        })}
       </div>
     </div>
   );
