@@ -45,14 +45,12 @@ export function PlayerModal({ playerId, onClose }: Props) {
           <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-primary/20 via-transparent to-transparent pointer-events-none" />
 
           <div className="relative flex flex-col items-center text-center gap-3">
-            <div className="relative h-24 w-24 rounded-full overflow-hidden bg-secondary/60 border-2 border-border/60 glow-primary">
+            <div className="relative h-24 w-24 rounded-full overflow-hidden bg-secondary/60 border-2 border-border/60 glow-primary flex items-center justify-center">
               <img
-                src={bodyFor(player)}
+                src={avatarFor(player)}
                 alt={player.username}
-                className="h-full w-full object-cover"
-                onError={(e) => {
-                  (e.currentTarget as HTMLImageElement).src = avatarFor(player);
-                }}
+                className="h-20 w-20 object-contain pixelated"
+                style={{ imageRendering: "pixelated" }}
               />
             </div>
             <h2 className="text-2xl font-black tracking-tight">{player.username}</h2>
