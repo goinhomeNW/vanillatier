@@ -36,16 +36,7 @@ export function PlayerModal({ playerId, onClose }: Props) {
 
   const points = pointsForPlayer(player);
   const rank = rankFromPoints(points);
-  const tiersShown = TIER_ORDER.filter((t) =>
-    (player.peakTier && t === player.peakTier) ||
-    (player.currentTier && t === player.currentTier),
-  );
-  // Sort: HT before LT (already in TIER_ORDER), then show empty slots up to 8
-  const sortedTiers = [...tiersShown].sort((a, b) => {
-    if (isHT(a) && !isHT(b)) return -1;
-    if (!isHT(a) && isHT(b)) return 1;
-    return TIER_ORDER.indexOf(a) - TIER_ORDER.indexOf(b);
-  });
+  const peakPts = player.peakTier ? TIER_POINTS[player.peakTier] : 0;
 
   return (
     <Dialog open onOpenChange={(o) => !o && onClose()}>
