@@ -298,7 +298,7 @@ function VideoBackground({ clips }: { clips: string[] }) {
           className="absolute inset-0 h-full w-full object-cover"
         />
       ) : (
-        <div className="absolute inset-0 bg-gradient-hero animate-pulse-slow" />
+        <div className="absolute inset-0" style={{ background: "var(--gradient-hero)" }} />
       )}
       {/* Purple + dark overlay */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,oklch(0.35_0.22_295/0.55),transparent_60%),radial-gradient(ellipse_at_bottom,oklch(0.25_0.18_280/0.7),transparent_65%),linear-gradient(180deg,oklch(0.14_0.03_285/0.85),oklch(0.12_0.025_280/0.95))]" />
