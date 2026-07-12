@@ -52,41 +52,42 @@
   --popover: oklch(0.19 0.03 280);
   --popover-foreground: oklch(0.97 0.01 270);
 
-  --primary: oklch(0.62 0.22 295);          /* purple */
+  --primary: oklch(0.66 0.27 300);          /* vivid purple */
   --primary-foreground: oklch(0.99 0 0);
 
-  --secondary: oklch(0.27 0.04 280);
+  --secondary: oklch(0.28 0.06 295);
   --secondary-foreground: oklch(0.97 0.01 270);
 
-  --muted: oklch(0.25 0.03 280);
-  --muted-foreground: oklch(0.68 0.03 270);
+  --muted: oklch(0.26 0.05 290);
+  --muted-foreground: oklch(0.7 0.04 285);
 
-  --accent: oklch(0.7 0.2 250);             /* neon blue */
+  --accent: oklch(0.72 0.24 305);           /* magenta-purple accent */
   --accent-foreground: oklch(0.99 0 0);
 
   --destructive: oklch(0.6 0.24 22);        /* crimson */
   --destructive-foreground: oklch(0.99 0 0);
 
-  --border: oklch(1 0 0 / 0.08);
-  --input: oklch(1 0 0 / 0.08);
-  --ring: oklch(0.62 0.22 295);
+  --border: oklch(1 0.02 300 / 0.1);
+  --input: oklch(1 0.02 300 / 0.1);
+  --ring: oklch(0.66 0.27 300);
 
   /* Tier colors */
-  --tier-ht: oklch(0.45 0.22 260);          /* dark blue */
-  --tier-ht-foreground: oklch(0.97 0.02 260);
-  --tier-lt: oklch(0.72 0.16 230);          /* light blue */
-  --tier-lt-foreground: oklch(0.15 0.04 260);
+  --tier-ht: oklch(0.55 0.26 295);          /* deep purple */
+  --tier-ht-foreground: oklch(0.97 0.02 295);
+  --tier-lt: oklch(0.78 0.16 300);          /* light purple */
+  --tier-lt-foreground: oklch(0.15 0.05 295);
 
   --crimson: oklch(0.6 0.24 22);
-  --neon: oklch(0.7 0.2 250);
+  --neon: oklch(0.72 0.24 305);
   --gold: oklch(0.82 0.17 85);
 
-  --glass: oklch(1 0 0 / 0.04);
+  --glass: oklch(1 0.02 300 / 0.05);
 
-  --gradient-hero: radial-gradient(ellipse at top, oklch(0.32 0.15 295 / 0.45), transparent 60%),
-                   radial-gradient(ellipse at bottom right, oklch(0.4 0.2 22 / 0.25), transparent 55%),
-                   linear-gradient(180deg, oklch(0.14 0.025 280), oklch(0.12 0.02 280));
-  --gradient-primary: linear-gradient(135deg, oklch(0.62 0.22 295), oklch(0.55 0.2 260));
+  --gradient-hero: radial-gradient(ellipse at top, oklch(0.42 0.28 300 / 0.55), transparent 60%),
+                   radial-gradient(ellipse at bottom left, oklch(0.36 0.22 285 / 0.4), transparent 55%),
+                   radial-gradient(ellipse at bottom right, oklch(0.4 0.24 315 / 0.35), transparent 55%),
+                   linear-gradient(180deg, oklch(0.14 0.04 290), oklch(0.11 0.03 285));
+  --gradient-primary: linear-gradient(135deg, oklch(0.68 0.28 300), oklch(0.55 0.26 285));
   --gradient-crimson: linear-gradient(135deg, oklch(0.6 0.24 22), oklch(0.5 0.22 12));
   --shadow-glow: 0 0 40px -10px oklch(0.62 0.22 295 / 0.6);
   --shadow-glow-blue: 0 0 30px -8px oklch(0.7 0.2 250 / 0.55);
