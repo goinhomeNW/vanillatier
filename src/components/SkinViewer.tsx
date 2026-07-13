@@ -5,80 +5,78 @@ interface Props {
   player: Pick<Player, "uuid" | "username" | "avatarUrl">;
   width?: number;
   height?: number;
-  /** WALK | RUN | IDLE | FLY */
-  animation?: "walk" | "run" | "idle" | "fly";
+  /** When true, plays the wave emote instead of the steady idle pose. */
+  emote?: boolean;
   className?: string;
 }
 
 /**
- * Renders a 3D Minecraft skin on a rotating stand with a walking animation.
+ * Renders a 3D Minecraft skin. Steady idle by default; plays a wave emote when `emote` is true.
  * Uses skinview3d (three.js under the hood). Client-only.
  */
 export function SkinViewer({
   player,
   width = 180,
   height = 260,
-  animation = "walk",
+  emote = false,
   className,
 }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const viewerRef = useRef<any>(null);
+  const modRef = useRef<any>(null);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    let viewer: any = null;
     let disposed = false;
 
     (async () => {
       const mod = await import("skinview3d");
       if (disposed) return;
+      modRef.current = mod;
 
       const skinUrl =
         player.uuid && player.uuid.length >= 8
           ? `https://crafatar.com/skins/${player.uuid}`
           : `https://mc-heads.net/skin/${encodeURIComponent(player.username)}`;
 
-      viewer = new mod.SkinViewer({
+      const viewer = new mod.SkinViewer({
         canvas,
         width,
         height,
         skin: skinUrl,
       });
+      viewerRef.current = viewer;
 
       viewer.fov = 40;
       viewer.zoom = 0.9;
       viewer.background = null;
-      viewer.autoRotate = true;
-      viewer.autoRotateSpeed = 0.6;
+      viewer.autoRotate = false;
 
-      switch (animation) {
-        case "run":
-          viewer.animation = new mod.RunningAnimation();
-          break;
-        case "idle":
-          viewer.animation = new mod.IdleAnimation();
-          break;
-        case "fly":
-          viewer.animation = new mod.FlyingAnimation();
-          break;
-        case "walk":
-        default:
-          viewer.animation = new mod.WalkingAnimation();
-      }
-      if (viewer.animation) viewer.animation.speed = 0.8;
+      applyAnimation(viewer, mod, emote);
     })();
 
     return () => {
       disposed = true;
       try {
-        viewer?.dispose?.();
+        viewerRef.current?.dispose?.();
       } catch {
         /* noop */
       }
+      viewerRef.current = null;
     };
-  }, [player.uuid, player.username, width, height, animation]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [player.uuid, player.username, width, height]);
+
+  // React to emote toggle without recreating the viewer.
+  useEffect(() => {
+    const viewer = viewerRef.current;
+    const mod = modRef.current;
+    if (!viewer || !mod) return;
+    applyAnimation(viewer, mod, emote);
+  }, [emote]);
 
   return (
     <canvas
@@ -89,4 +87,33 @@ export function SkinViewer({
       style={{ display: "block" }}
     />
   );
+}
+
+function applyAnimation(viewer: any, mod: any, emote: boolean) {
+  if (!emote) {
+    // Steady idle — subtle breathing, no rotation.
+    const idle = new mod.IdleAnimation();
+    idle.speed = 0.6;
+    viewer.animation = idle;
+    return;
+  }
+
+  // Custom wave emote — raise the right arm and wave the hand.
+  class WaveAnimation extends mod.PlayerAnimation {
+    animate(player: any) {
+      const t = this.progress;
+      // Reset other limbs to steady pose.
+      player.skin.leftArm.rotation.set(0, 0, 0);
+      player.skin.leftLeg.rotation.set(0, 0, 0);
+      player.skin.rightLeg.rotation.set(0, 0, 0);
+      player.skin.head.rotation.set(0, Math.sin(t * 1.5) * 0.15, 0);
+      // Raise right arm overhead and wave.
+      player.skin.rightArm.rotation.z = -Math.PI + Math.sin(t * 6) * 0.35;
+      player.skin.rightArm.rotation.x = 0;
+      player.skin.rightArm.rotation.y = 0;
+    }
+  }
+  const wave = new WaveAnimation();
+  wave.speed = 1;
+  viewer.animation = wave;
 }
