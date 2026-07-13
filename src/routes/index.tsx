@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { Header } from "@/components/Header";
 import { SkinViewer } from "@/components/SkinViewer";
 import { PlayerModal } from "@/components/PlayerModal";
@@ -21,12 +21,10 @@ export const Route = createFileRoute("/")({
 });
 
 /**
- * Drop background clips here. Any web-playable video URL works.
- * Upload MP4/WebM clips into the chat and I'll swap these in.
+ * YouTube video id used as the hero background (looping, muted, no chrome).
+ * Replace with any YouTube video id.
  */
-const HERO_CLIPS: string[] = [
-  // e.g. "/hero-clip-1.mp4",
-];
+const HERO_YOUTUBE_ID = "g3hSCcXKVN0";
 
 function Home() {
   const players = usePlayers();
@@ -86,7 +84,7 @@ function Home() {
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass">
                 <Crown className="h-3.5 w-3.5 text-gold" />
                 <span className="text-[11px] uppercase tracking-[0.22em] text-muted-foreground">
-                  Top 3 Champions
+                  Top 3 Contenders
                 </span>
               </div>
             </div>
@@ -199,6 +197,7 @@ function PodiumSlot({
   player, place, onSelect,
 }: { player?: Player; place: number; onSelect: (id: string) => void }) {
   const style = PLACE_STYLES[place];
+  const [hover, setHover] = useState(false);
 
   if (!player) {
     return (
@@ -216,6 +215,10 @@ function PodiumSlot({
   return (
     <button
       onClick={() => onSelect(player.id)}
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+      onFocus={() => setHover(true)}
+      onBlur={() => setHover(false)}
       className={`group relative glass-strong rounded-2xl border ${style.border} ${style.glow} ${style.height} flex flex-col items-center justify-end p-4 pt-6 transition hover:scale-[1.02] text-left w-full`}
     >
       {/* Place badge */}
@@ -231,7 +234,7 @@ function PodiumSlot({
             player={player}
             width={180}
             height={260}
-            animation="walk"
+            emote={hover}
           />
           {/* Podium base glow disc */}
           <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 h-3 w-32 rounded-full bg-primary/30 blur-md" />
