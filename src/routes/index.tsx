@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useMemo, useState, useEffect } from "react";
+import { useMemo, useState } from "react";
 import { Header } from "@/components/Header";
 import { SkinViewer } from "@/components/SkinViewer";
 import { PlayerModal } from "@/components/PlayerModal";
