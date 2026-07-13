@@ -48,7 +48,7 @@ function Home() {
 
       {/* HERO with video background + podium overlay */}
       <section className="relative overflow-hidden">
-        <VideoBackground clips={HERO_CLIPS} />
+        <VideoBackground youtubeId={HERO_YOUTUBE_ID} />
 
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 pt-16 pb-24">
           {/* Title */}
@@ -286,27 +286,49 @@ function ContenderRow({
 
 /* ----------------------------- Video BG ----------------------------- */
 
-function VideoBackground({ clips }: { clips: string[] }) {
-  const src = clips[0];
+function VideoBackground({ youtubeId }: { youtubeId?: string }) {
+  // Cover the hero without distortion. YouTube iframes are 16:9, so we scale
+  // them larger than the container and center-crop with translate.
+  const params = new URLSearchParams({
+    autoplay: "1",
+    mute: "1",
+    controls: "0",
+    loop: "1",
+    playlist: youtubeId ?? "",
+    modestbranding: "1",
+    playsinline: "1",
+    rel: "0",
+    showinfo: "0",
+    iv_load_policy: "3",
+    disablekb: "1",
+    fs: "0",
+    cc_load_policy: "0",
+  });
+  const src = youtubeId
+    ? `https://www.youtube-nocookie.com/embed/${youtubeId}?${params.toString()}`
+    : null;
+
   return (
     <div className="absolute inset-0 -z-0 overflow-hidden">
       {src ? (
-        <video
-          key={src}
-          src={src}
-          autoPlay
-          muted
-          loop
-          playsInline
-          className="absolute inset-0 h-full w-full object-cover"
-        />
+        <div className="absolute inset-0 pointer-events-none">
+          {/* Scale iframe to fully cover a 16:9 aspect while cropping edges. */}
+          <iframe
+            src={src}
+            title="Hero background"
+            allow="autoplay; encrypted-media; picture-in-picture"
+            allowFullScreen={false}
+            frameBorder={0}
+            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[177.78vh] h-[56.25vw] min-w-full min-h-full pointer-events-none"
+          />
+        </div>
       ) : (
         <div className="absolute inset-0" style={{ background: "var(--gradient-hero)" }} />
       )}
-      {/* Purple + dark overlay */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,oklch(0.35_0.22_295/0.55),transparent_60%),radial-gradient(ellipse_at_bottom,oklch(0.25_0.18_280/0.7),transparent_65%),linear-gradient(180deg,oklch(0.14_0.03_285/0.85),oklch(0.12_0.025_280/0.95))]" />
-      {/* Grain / scanline vignette */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_40%,oklch(0.1_0.02_280/0.55))]" />
+      {/* Lighter purple tint so the gameplay stays clearly visible */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,oklch(0.35_0.22_295/0.28),transparent_60%),radial-gradient(ellipse_at_bottom,oklch(0.18_0.15_285/0.55),transparent_70%),linear-gradient(180deg,oklch(0.12_0.03_285/0.35),oklch(0.1_0.025_280/0.55))]" />
+      {/* Soft vignette */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_55%,oklch(0.08_0.02_280/0.55))]" />
     </div>
   );
 }
