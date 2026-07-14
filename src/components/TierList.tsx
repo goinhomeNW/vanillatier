@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { usePlayers } from "@/lib/players-store";
 import type { Player, TierKey } from "@/lib/tiers";
-import { avatarFor, pointsForPlayer, tierRank } from "@/lib/tiers";
+import { bodyFor, pointsForPlayer, tierRank } from "@/lib/tiers";
 import { Trophy } from "lucide-react";
 
 interface Props {
@@ -85,18 +85,20 @@ function Column({
               key={p.id}
               onClick={() => onSelect(p.id)}
               className={
-                "w-full flex items-center gap-3 rounded-lg border px-3 py-2.5 transition group text-left " +
+                "w-full flex items-center gap-3 rounded-lg border px-3 py-2 transition group text-left " +
                 (ht
                   ? "bg-tier-ht/10 border-transparent hover:bg-tier-ht/20 hover:border-tier-ht/30"
                   : "bg-secondary/25 border-transparent hover:bg-secondary/40 hover:border-border/60")
               }
             >
-              <img
-                src={avatarFor(p)}
-                alt=""
-                className="h-8 w-8 rounded-md bg-secondary/40 border border-border/60"
-                loading="lazy"
-              />
+              <div className="h-12 w-8 flex items-end justify-center shrink-0">
+                <img
+                  src={bodyFor(p)}
+                  alt=""
+                  className="h-12 w-auto object-contain drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)] [image-rendering:pixelated]"
+                  loading="lazy"
+                />
+              </div>
               <div className="flex-1 min-w-0">
                 <div className="font-semibold text-sm truncate">{p.username}</div>
                 <div className="text-[10px] text-muted-foreground">{p.region}</div>

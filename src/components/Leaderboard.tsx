@@ -1,9 +1,9 @@
 import { useMemo, useState } from "react";
 import { usePlayers } from "@/lib/players-store";
-import { avatarFor, pointsForPlayer, rankFromPoints, REGIONS, TIER_ORDER } from "@/lib/tiers";
+import { bodyFor, pointsForPlayer, rankFromPoints, REGIONS, TIER_ORDER } from "@/lib/tiers";
 import type { Player, Region, TierKey } from "@/lib/tiers";
 import { TierBadge } from "./TierBadge";
-import { Search, Trophy, Filter } from "lucide-react";
+import { Search, Trophy, Filter, Shield } from "lucide-react";
 import { Input } from "@/components/ui/input";
 
 interface Props {
@@ -108,15 +108,31 @@ function Row({ player, rank, onClick }: { player: Player; rank: number; onClick:
         {rank}.
       </div>
       <div className="flex items-center gap-3 min-w-0 pl-3">
-        <img
-          src={avatarFor(player)}
-          alt=""
-          className="h-9 w-9 rounded-md border border-border/60 bg-secondary/40"
-          loading="lazy"
-        />
+        <div className="h-16 w-10 flex items-end justify-center shrink-0">
+          <img
+            src={bodyFor(player)}
+            alt=""
+            className="h-16 w-auto object-contain drop-shadow-[0_2px_6px_rgba(0,0,0,0.6)] [image-rendering:pixelated]"
+            loading="lazy"
+          />
+        </div>
         <div className="min-w-0">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 flex-wrap">
             <span className="font-bold truncate">{player.username}</span>
+            {rank <= 5 && (
+              <span
+                className="inline-flex items-center gap-1 text-[9px] uppercase tracking-wider px-1.5 py-0.5 rounded border font-bold"
+                style={{
+                  background: "color-mix(in oklab, var(--primary) 22%, transparent)",
+                  borderColor: "color-mix(in oklab, var(--primary) 55%, transparent)",
+                  color: "color-mix(in oklab, var(--primary) 92%, white)",
+                }}
+                title={`Top ${rank} — Elite`}
+              >
+                <Shield className="h-2.5 w-2.5" />
+                Top 5
+              </span>
+            )}
             {player.retired && (
               <span className="text-[9px] uppercase tracking-wider px-1.5 py-0.5 rounded bg-crimson/20 text-crimson border border-crimson/40">
                 Retired
