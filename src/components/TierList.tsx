@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import { usePlayers } from "@/lib/players-store";
 import type { Player, TierKey } from "@/lib/tiers";
 import { avatarFor, pointsForPlayer, tierRank } from "@/lib/tiers";
-import { Trophy, ChevronsUp } from "lucide-react";
+import { Trophy } from "lucide-react";
 
 interface Props {
   onSelect: (id: string) => void;
