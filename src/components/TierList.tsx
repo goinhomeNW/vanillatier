@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import { usePlayers } from "@/lib/players-store";
 import type { Player, TierKey } from "@/lib/tiers";
 import { avatarFor, pointsForPlayer, tierRank } from "@/lib/tiers";
-import { Trophy, ChevronsUp } from "lucide-react";
+import { Trophy } from "lucide-react";
 
 interface Props {
   onSelect: (id: string) => void;
@@ -73,7 +73,7 @@ function Column({
         <Trophy className={`h-5 w-5 ${TROPHY_TINT[level]}`} />
         <span className="text-lg font-black tracking-tight">Tier {level}</span>
       </div>
-      <div className="divide-y divide-border/40">
+      <div className="flex flex-col gap-2 p-3">
         {players.length === 0 && (
           <div className="px-4 py-6 text-center text-xs text-muted-foreground">No players</div>
         )}
@@ -85,25 +85,32 @@ function Column({
               key={p.id}
               onClick={() => onSelect(p.id)}
               className={
-                "w-full flex items-center gap-2.5 px-3 py-2 transition group text-left " +
+                "w-full flex items-center gap-3 rounded-lg border px-3 py-2.5 transition group text-left " +
                 (ht
-                  ? "bg-tier-ht/15 hover:bg-tier-ht/25"
-                  : "bg-tier-lt/[0.06] hover:bg-tier-lt/[0.12]")
+                  ? "bg-tier-ht/10 border-transparent hover:bg-tier-ht/20 hover:border-tier-ht/30"
+                  : "bg-secondary/25 border-transparent hover:bg-secondary/40 hover:border-border/60")
               }
             >
               <img
                 src={avatarFor(p)}
                 alt=""
-                className="h-7 w-7 rounded bg-secondary/40 border border-border/60"
+                className="h-8 w-8 rounded-md bg-secondary/40 border border-border/60"
                 loading="lazy"
               />
-              <span className="flex-1 truncate text-sm font-medium">{p.username}</span>
-              <ChevronsUp
+              <div className="flex-1 min-w-0">
+                <div className="font-semibold text-sm truncate">{p.username}</div>
+                <div className="text-[10px] text-muted-foreground">{p.region}</div>
+              </div>
+              <span
                 className={
-                  "h-4 w-4 transition " +
-                  (ht ? "text-tier-ht" : "text-tier-lt/70")
+                  "text-[10px] font-bold px-1.5 py-0.5 rounded border " +
+                  (ht
+                    ? "text-tier-ht border-tier-ht/35 bg-tier-ht/10"
+                    : "text-tier-lt/80 border-tier-lt/30 bg-tier-lt/10")
                 }
-              />
+              >
+                {ht ? "HT" : "LT"}
+              </span>
             </button>
           );
         })}
