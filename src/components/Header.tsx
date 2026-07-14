@@ -10,7 +10,7 @@ export function Header() {
             <Swords className="h-5 w-5 text-primary-foreground" />
           </div>
           <div className="flex flex-col leading-none">
-            <span className="text-lg font-black tracking-tight text-gradient">Vanilla Tiers</span>
+            <span className="text-lg font-black tracking-tight text-gradient">VanillaTiers</span>
             <span className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">Minecraft PvP</span>
           </div>
         </Link>

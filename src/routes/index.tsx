@@ -11,10 +11,14 @@ import { Swords, ListOrdered, Layers, Trophy, ArrowRight, Crown } from "lucide-r
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Vanilla Tiers — Competitive Minecraft PvP Rankings" },
-      { name: "description", content: "The home of competitive Vanilla Minecraft PvP. Browse the leaderboard, tier list, and see the top 3 champions on the podium." },
-      { property: "og:title", content: "Vanilla Tiers — Competitive Minecraft PvP" },
+      { title: "VanillaTiers — Competitive Minecraft PvP Rankings" },
+      { name: "description", content: "The home of competitive Vanilla Minecraft PvP. Browse the leaderboard, tier list, and see the top 3 contenders on the podium." },
+      { property: "og:title", content: "VanillaTiers — Competitive Minecraft PvP" },
       { property: "og:description", content: "Leaderboard, tier list, and the reigning top 3 of competitive Vanilla PvP." },
+      { property: "og:url", content: "https://vanillatier.lovable.app/" },
+    ],
+    links: [
+      { rel: "canonical", href: "https://vanillatier.lovable.app/" },
     ],
   }),
   component: Home,
@@ -138,7 +142,7 @@ function Home() {
       )}
 
       <footer className="mx-auto max-w-7xl px-6 py-10 text-center text-xs text-muted-foreground">
-        Vanilla Tiers · Competitive Minecraft PvP · {new Date().getFullYear()}
+        VanillaTiers · Competitive Minecraft PvP · {new Date().getFullYear()}
       </footer>
 
       <PlayerModal playerId={selected} onClose={() => setSelected(null)} />

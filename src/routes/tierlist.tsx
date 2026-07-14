@@ -8,10 +8,14 @@ import { Layers } from "lucide-react";
 export const Route = createFileRoute("/tierlist")({
   head: () => ({
     meta: [
-      { title: "Tier List — Vanilla Tiers" },
+      { title: "Tier List — VanillaTiers" },
       { name: "description", content: "Vanilla Minecraft PvP tier list. HT and LT players grouped by peak tier." },
-      { property: "og:title", content: "Tier List — Vanilla Tiers" },
+      { property: "og:title", content: "Tier List — VanillaTiers" },
       { property: "og:description", content: "The official Vanilla Minecraft PvP tier list." },
+      { property: "og:url", content: "https://vanillatier.lovable.app/tierlist" },
+    ],
+    links: [
+      { rel: "canonical", href: "https://vanillatier.lovable.app/tierlist" },
     ],
   }),
   component: TierListPage,
