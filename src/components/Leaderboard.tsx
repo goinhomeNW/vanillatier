@@ -1,9 +1,9 @@
 import { useMemo, useState } from "react";
 import { usePlayers } from "@/lib/players-store";
-import { avatarFor, pointsForPlayer, rankFromPoints, REGIONS, TIER_ORDER } from "@/lib/tiers";
+import { bodyFor, pointsForPlayer, rankFromPoints, REGIONS, TIER_ORDER } from "@/lib/tiers";
 import type { Player, Region, TierKey } from "@/lib/tiers";
 import { TierBadge } from "./TierBadge";
-import { Search, Trophy, Filter } from "lucide-react";
+import { Search, Trophy, Filter, Shield } from "lucide-react";
 import { Input } from "@/components/ui/input";
 
 interface Props {
