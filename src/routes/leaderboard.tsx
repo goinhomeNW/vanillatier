@@ -8,10 +8,14 @@ import { ListOrdered } from "lucide-react";
 export const Route = createFileRoute("/leaderboard")({
   head: () => ({
     meta: [
-      { title: "Leaderboard — Vanilla Tiers" },
+      { title: "Leaderboard — VanillaTiers" },
       { name: "description", content: "Competitive Vanilla Minecraft PvP leaderboard. Search, filter by tier and region." },
-      { property: "og:title", content: "Leaderboard — Vanilla Tiers" },
+      { property: "og:title", content: "Leaderboard — VanillaTiers" },
       { property: "og:description", content: "The competitive Vanilla Minecraft PvP leaderboard." },
+      { property: "og:url", content: "https://vanillatier.lovable.app/leaderboard" },
+    ],
+    links: [
+      { rel: "canonical", href: "https://vanillatier.lovable.app/leaderboard" },
     ],
   }),
   component: LeaderboardPage,
