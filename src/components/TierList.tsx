@@ -87,7 +87,7 @@ function Column({
               className={
                 "w-full flex items-center gap-3 rounded-lg border px-3 py-2.5 transition group text-left " +
                 (ht
-                  ? "bg-tier-ht/10 border-transparent hover:bg-tier-ht/18 hover:border-tier-ht/30"
+                  ? "bg-tier-ht/10 border-transparent hover:bg-tier-ht/20 hover:border-tier-ht/30"
                   : "bg-secondary/25 border-transparent hover:bg-secondary/40 hover:border-border/60")
               }
             >
