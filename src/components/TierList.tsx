@@ -101,11 +101,11 @@ function Column({
                   : "bg-secondary/25 border-transparent hover:bg-secondary/40 hover:border-border/60")
               }
             >
-              <div className="h-12 w-8 flex items-end justify-center shrink-0">
+              <div className="h-10 w-10 flex items-center justify-center shrink-0 rounded-md bg-black/25 border border-border/40 overflow-hidden">
                 <img
-                  src={bodyFor(p)}
+                  src={bustFor(p)}
                   alt=""
-                  className="h-12 w-auto object-contain drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)] [image-rendering:pixelated]"
+                  className="h-10 w-10 object-contain [image-rendering:pixelated]"
                   loading="lazy"
                 />
               </div>
@@ -113,16 +113,11 @@ function Column({
                 <div className="font-semibold text-sm truncate">{p.username}</div>
                 <div className="text-[10px] text-muted-foreground">{p.region}</div>
               </div>
-              <Trophy className={`h-4 w-4 ${trophyColorFor(t)} drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)]`} />
               <span
-                className={
-                  "text-[10px] font-bold px-1.5 py-0.5 rounded border " +
-                  (ht
-                    ? "text-tier-ht border-tier-ht/35 bg-tier-ht/10"
-                    : "text-tier-lt/80 border-tier-lt/30 bg-tier-lt/10")
-                }
+                className={`inline-flex items-center gap-1 text-[10px] font-bold px-1.5 py-0.5 rounded border ${tierPillClass(t)}`}
               >
-                {ht ? "HT" : "LT"}
+                <Trophy className="h-3 w-3" />
+                {t}
               </span>
             </button>
           );
