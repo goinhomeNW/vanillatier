@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { usePlayers } from "@/lib/players-store";
 import type { Player, TierKey } from "@/lib/tiers";
-import { bodyFor, pointsForPlayer, tierRank } from "@/lib/tiers";
+import { bodyFor, pointsForPlayer, tierRank, trophyColorFor } from "@/lib/tiers";
 import { Trophy } from "lucide-react";
 
 interface Props {
