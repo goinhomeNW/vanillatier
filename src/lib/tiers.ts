@@ -106,3 +106,22 @@ export const TROPHY_COLOR: Record<TierKey, string> = {
 export function trophyColorFor(t: TierKey): string {
   return TROPHY_COLOR[t];
 }
+
+/** Combined pill styling (matches trophy color) — trophy + tier label share one chip. */
+export const TIER_PILL: Record<TierKey, string> = {
+  HT1: "text-yellow-400 border-yellow-500/45 bg-yellow-500/15",
+  LT1: "text-orange-300 border-orange-500/45 bg-orange-500/15",
+  HT2: "text-zinc-300 border-zinc-400/45 bg-zinc-400/15",
+  LT2: "text-zinc-100 border-zinc-200/45 bg-zinc-200/12",
+  HT3: "text-amber-500 border-amber-700/50 bg-amber-700/20",
+  LT3: "text-amber-300 border-amber-500/45 bg-amber-500/15",
+  HT4: "text-accent border-accent/45 bg-accent/15",
+  LT4: "text-accent/80 border-accent/35 bg-accent/10",
+  HT5: "text-muted-foreground border-border/70 bg-secondary/50",
+  LT5: "text-muted-foreground/80 border-border/50 bg-secondary/35",
+};
+
+export function tierPillClass(t: TierKey): string {
+  return TIER_PILL[t];
+}
+
