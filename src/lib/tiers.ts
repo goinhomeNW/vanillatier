@@ -80,3 +80,21 @@ export function pointsForPlayer(p: Player): number {
   const t = p.peakTier ?? p.currentTier;
   return t ? TIER_POINTS[t] : 0;
 }
+
+/** Trophy tint per tier variant. HT = darker/richer, LT = lighter. */
+export const TROPHY_COLOR: Record<TierKey, string> = {
+  HT1: "text-yellow-400",
+  LT1: "text-orange-400",
+  HT2: "text-zinc-400",
+  LT2: "text-zinc-200",
+  HT3: "text-amber-700",
+  LT3: "text-amber-500",
+  HT4: "text-accent",
+  LT4: "text-accent/70",
+  HT5: "text-muted-foreground",
+  LT5: "text-muted-foreground/70",
+};
+
+export function trophyColorFor(t: TierKey): string {
+  return TROPHY_COLOR[t];
+}
