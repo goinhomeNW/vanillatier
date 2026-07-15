@@ -48,29 +48,39 @@ export function TierList({ onSelect }: Props) {
   );
 }
 
-const TROPHY_TINT: Record<number, string> = {
-  1: "text-yellow-400",
-  2: "text-zinc-300",
-  3: "text-orange-400",
-  4: "text-accent",
-  5: "text-muted-foreground",
-};
-
 const HEADER_TINT: Record<number, string> = {
-  1: "from-yellow-500/30 to-yellow-700/10 border-yellow-500/40",
-  2: "from-zinc-300/20 to-zinc-500/10 border-zinc-300/30",
-  3: "from-orange-500/25 to-orange-800/10 border-orange-500/40",
+  1: "from-yellow-500/30 to-orange-500/10 border-yellow-500/40",
+  2: "from-zinc-300/25 to-zinc-500/10 border-zinc-300/30",
+  3: "from-amber-700/30 to-amber-500/10 border-amber-600/40",
   4: "from-accent/20 to-accent/5 border-accent/30",
   5: "from-secondary/60 to-secondary/20 border-border/60",
+};
+
+// Which trophies to show in the column header.
+// Tiers 1-3 get HT + LT (dark + light). Tiers 4-5 keep a single trophy.
+const HEADER_TROPHIES: Record<number, TierKey[]> = {
+  1: ["HT1", "LT1"],
+  2: ["HT2", "LT2"],
+  3: ["HT3", "LT3"],
+  4: ["HT4"],
+  5: ["HT5"],
 };
 
 function Column({
   level, players, onSelect,
 }: { level: number; players: Player[]; onSelect: (id: string) => void }) {
+  const trophies = HEADER_TROPHIES[level];
   return (
     <div className="glass rounded-2xl overflow-hidden flex flex-col">
       <div className={`bg-gradient-to-b ${HEADER_TINT[level]} border-b px-4 py-3 flex items-center justify-center gap-2`}>
-        <Trophy className={`h-5 w-5 ${TROPHY_TINT[level]}`} />
+        <div className="flex items-center gap-1">
+          {trophies.map((t) => (
+            <Trophy
+              key={t}
+              className={`h-5 w-5 ${trophyColorFor(t)} drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)]`}
+            />
+          ))}
+        </div>
         <span className="text-lg font-black tracking-tight">Tier {level}</span>
       </div>
       <div className="flex flex-col gap-2 p-3">
@@ -103,6 +113,7 @@ function Column({
                 <div className="font-semibold text-sm truncate">{p.username}</div>
                 <div className="text-[10px] text-muted-foreground">{p.region}</div>
               </div>
+              <Trophy className={`h-4 w-4 ${trophyColorFor(t)} drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)]`} />
               <span
                 className={
                   "text-[10px] font-bold px-1.5 py-0.5 rounded border " +
