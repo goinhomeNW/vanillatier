@@ -1,6 +1,6 @@
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { TIER_POINTS, avatarFor, bodyFor, pointsForPlayer, rankFromPoints } from "@/lib/tiers";
+import { TIER_POINTS, avatarFor, bodyFor, pointsForPlayer, rankFromPoints, trophyColorFor } from "@/lib/tiers";
 import { TierBadge, EmptyTierDot } from "./TierBadge";
 import { Trophy, ExternalLink } from "lucide-react";
 import { usePlayers } from "@/lib/players-store";
