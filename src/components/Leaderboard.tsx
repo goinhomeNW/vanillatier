@@ -108,11 +108,11 @@ function Row({ player, rank, onClick }: { player: Player; rank: number; onClick:
         {rank}.
       </div>
       <div className="flex items-center gap-3 min-w-0 pl-3">
-        <div className="h-16 w-10 flex items-end justify-center shrink-0">
+        <div className="h-12 w-12 flex items-center justify-center shrink-0 rounded-md bg-black/25 border border-border/40 overflow-hidden">
           <img
-            src={bodyFor(player)}
+            src={bustFor(player)}
             alt=""
-            className="h-16 w-auto object-contain drop-shadow-[0_2px_6px_rgba(0,0,0,0.6)] [image-rendering:pixelated]"
+            className="h-12 w-12 object-contain [image-rendering:pixelated]"
             loading="lazy"
           />
         </div>
