@@ -81,6 +81,14 @@ export function pointsForPlayer(p: Player): number {
   return t ? TIER_POINTS[t] : 0;
 }
 
+/** 3D isometric head+shoulders render. Used in list rows. */
+export function bustFor(p: Pick<Player, "uuid" | "username">): string {
+  if (p.uuid && p.uuid.length >= 8) {
+    return `https://crafatar.com/renders/head/${p.uuid}?size=96&overlay`;
+  }
+  return `https://mc-heads.net/head/${encodeURIComponent(p.username)}/96`;
+}
+
 /** Trophy tint per tier variant. HT = darker/richer, LT = lighter. */
 export const TROPHY_COLOR: Record<TierKey, string> = {
   HT1: "text-yellow-400",
