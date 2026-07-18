@@ -1,7 +1,8 @@
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { TIER_POINTS, avatarFor, bodyFor, pointsForPlayer, rankFromPoints, trophyColorFor } from "@/lib/tiers";
-import { TierBadge, EmptyTierDot } from "./TierBadge";
+import { TIER_POINTS, avatarFor, bodyFor, pointsForPlayer, rankFromPoints, tierPillClass, trophyColorFor } from "@/lib/tiers";
+import { EmptyTierDot } from "./TierBadge";
+
 import { Trophy, ExternalLink } from "lucide-react";
 import { usePlayers } from "@/lib/players-store";
 import { useMemo } from "react";
@@ -98,11 +99,11 @@ export function PlayerModal({ playerId, onClose }: Props) {
                 <TooltipProvider delayDuration={100}>
                   <Tooltip>
                     <TooltipTrigger asChild>
-                      <span className="cursor-help inline-flex items-center gap-1.5">
-                        <Trophy
-                          className={`h-4 w-4 ${trophyColorFor(player.currentTier)} drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)]`}
-                        />
-                        <TierBadge tier={player.currentTier} />
+                      <span
+                        className={`cursor-help inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md border text-sm font-bold ${tierPillClass(player.currentTier)}`}
+                      >
+                        <Trophy className={`h-3.5 w-3.5 ${trophyColorFor(player.currentTier)}`} />
+                        {player.currentTier}
                       </span>
                     </TooltipTrigger>
                     {player.peakTier && (
@@ -117,6 +118,7 @@ export function PlayerModal({ playerId, onClose }: Props) {
                   </Tooltip>
                 </TooltipProvider>
               )}
+
               {Array.from({ length: player.currentTier ? 7 : 8 }).map((_, i) => (
                 <EmptyTierDot key={`e-${i}`} />
               ))}
