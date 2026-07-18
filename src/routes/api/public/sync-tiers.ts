@@ -140,15 +140,16 @@ async function runSync(): Promise<Response> {
       if (changed) {
         updatedCount++;
         updates.push(
-          supabase.from("players").update({
+          Promise.resolve(supabase.from("players").update({
             username: p.username,
             region: p.region,
             current_tier: p.currentTier,
             peak_tier: p.peakTier,
             retired: p.retired,
-          }).eq("id", prev.id),
+          }).eq("id", prev.id)),
         );
       }
+
     }
 
     if (toInsert.length > 0) {

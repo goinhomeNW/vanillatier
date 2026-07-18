@@ -13,6 +13,7 @@ import { Route as TierlistRouteImport } from './routes/tierlist'
 import { Route as LeaderboardRouteImport } from './routes/leaderboard'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ApiPublicSyncTiersRouteImport } from './routes/api/public/sync-tiers'
 import { Route as ApiPublicBotTiersRouteImport } from './routes/api/public/bot-tiers'
 
 const TierlistRoute = TierlistRouteImport.update({
@@ -35,6 +36,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicSyncTiersRoute = ApiPublicSyncTiersRouteImport.update({
+  id: '/api/public/sync-tiers',
+  path: '/api/public/sync-tiers',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicBotTiersRoute = ApiPublicBotTiersRouteImport.update({
   id: '/api/public/bot-tiers',
   path: '/api/public/bot-tiers',
@@ -47,6 +53,7 @@ export interface FileRoutesByFullPath {
   '/leaderboard': typeof LeaderboardRoute
   '/tierlist': typeof TierlistRoute
   '/api/public/bot-tiers': typeof ApiPublicBotTiersRoute
+  '/api/public/sync-tiers': typeof ApiPublicSyncTiersRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -54,6 +61,7 @@ export interface FileRoutesByTo {
   '/leaderboard': typeof LeaderboardRoute
   '/tierlist': typeof TierlistRoute
   '/api/public/bot-tiers': typeof ApiPublicBotTiersRoute
+  '/api/public/sync-tiers': typeof ApiPublicSyncTiersRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -62,6 +70,7 @@ export interface FileRoutesById {
   '/leaderboard': typeof LeaderboardRoute
   '/tierlist': typeof TierlistRoute
   '/api/public/bot-tiers': typeof ApiPublicBotTiersRoute
+  '/api/public/sync-tiers': typeof ApiPublicSyncTiersRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -71,8 +80,15 @@ export interface FileRouteTypes {
     | '/leaderboard'
     | '/tierlist'
     | '/api/public/bot-tiers'
+    | '/api/public/sync-tiers'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/admin' | '/leaderboard' | '/tierlist' | '/api/public/bot-tiers'
+  to:
+    | '/'
+    | '/admin'
+    | '/leaderboard'
+    | '/tierlist'
+    | '/api/public/bot-tiers'
+    | '/api/public/sync-tiers'
   id:
     | '__root__'
     | '/'
@@ -80,6 +96,7 @@ export interface FileRouteTypes {
     | '/leaderboard'
     | '/tierlist'
     | '/api/public/bot-tiers'
+    | '/api/public/sync-tiers'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -88,6 +105,7 @@ export interface RootRouteChildren {
   LeaderboardRoute: typeof LeaderboardRoute
   TierlistRoute: typeof TierlistRoute
   ApiPublicBotTiersRoute: typeof ApiPublicBotTiersRoute
+  ApiPublicSyncTiersRoute: typeof ApiPublicSyncTiersRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -120,6 +138,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/sync-tiers': {
+      id: '/api/public/sync-tiers'
+      path: '/api/public/sync-tiers'
+      fullPath: '/api/public/sync-tiers'
+      preLoaderRoute: typeof ApiPublicSyncTiersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/bot-tiers': {
       id: '/api/public/bot-tiers'
       path: '/api/public/bot-tiers'
@@ -136,6 +161,7 @@ const rootRouteChildren: RootRouteChildren = {
   LeaderboardRoute: LeaderboardRoute,
   TierlistRoute: TierlistRoute,
   ApiPublicBotTiersRoute: ApiPublicBotTiersRoute,
+  ApiPublicSyncTiersRoute: ApiPublicSyncTiersRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
