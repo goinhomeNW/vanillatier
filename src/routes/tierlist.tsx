@@ -1,5 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { triggerBotSync } from "@/lib/bot-sync";
+
 import { Header } from "@/components/Header";
 import { TierList } from "@/components/TierList";
 import { PlayerModal } from "@/components/PlayerModal";
