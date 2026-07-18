@@ -373,7 +373,7 @@ interface BotEntry {
 }
 
 function BotImportDialog({ onClose }: { onClose: () => void }) {
-  const [url, setUrl] = useState("");
+  const [url, setUrl] = useState("/api/public/bot-tiers");
   const [raw, setRaw] = useState("");
   const [loading, setLoading] = useState(false);
   const [mode, setMode] = useState<"merge" | "replace">("merge");
@@ -386,12 +386,13 @@ function BotImportDialog({ onClose }: { onClose: () => void }) {
       const text = await res.text();
       setRaw(text);
       toast.success("Fetched data — review then apply");
-    } catch (e) {
+    } catch {
       toast.error("Failed to fetch. Check URL / CORS.");
     } finally {
       setLoading(false);
     }
   }
+
 
   function apply() {
     let entries: BotEntry[];
