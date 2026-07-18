@@ -1,5 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { triggerBotSync } from "@/lib/bot-sync";
+
 import { Header } from "@/components/Header";
 import { Leaderboard } from "@/components/Leaderboard";
 import { PlayerModal } from "@/components/PlayerModal";
@@ -23,6 +25,8 @@ export const Route = createFileRoute("/leaderboard")({
 
 function LeaderboardPage() {
   const [selected, setSelected] = useState<string | null>(null);
+  useEffect(() => { triggerBotSync(); }, []);
+
   return (
     <div className="min-h-screen">
       <Header />
