@@ -13,6 +13,7 @@ import { Route as TierlistRouteImport } from './routes/tierlist'
 import { Route as LeaderboardRouteImport } from './routes/leaderboard'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ApiPublicBotTiersRouteImport } from './routes/api/public/bot-tiers'
 
 const TierlistRoute = TierlistRouteImport.update({
   id: '/tierlist',
@@ -34,18 +35,25 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicBotTiersRoute = ApiPublicBotTiersRouteImport.update({
+  id: '/api/public/bot-tiers',
+  path: '/api/public/bot-tiers',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
   '/leaderboard': typeof LeaderboardRoute
   '/tierlist': typeof TierlistRoute
+  '/api/public/bot-tiers': typeof ApiPublicBotTiersRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
   '/leaderboard': typeof LeaderboardRoute
   '/tierlist': typeof TierlistRoute
+  '/api/public/bot-tiers': typeof ApiPublicBotTiersRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -53,13 +61,25 @@ export interface FileRoutesById {
   '/admin': typeof AdminRoute
   '/leaderboard': typeof LeaderboardRoute
   '/tierlist': typeof TierlistRoute
+  '/api/public/bot-tiers': typeof ApiPublicBotTiersRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/admin' | '/leaderboard' | '/tierlist'
+  fullPaths:
+    | '/'
+    | '/admin'
+    | '/leaderboard'
+    | '/tierlist'
+    | '/api/public/bot-tiers'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/admin' | '/leaderboard' | '/tierlist'
-  id: '__root__' | '/' | '/admin' | '/leaderboard' | '/tierlist'
+  to: '/' | '/admin' | '/leaderboard' | '/tierlist' | '/api/public/bot-tiers'
+  id:
+    | '__root__'
+    | '/'
+    | '/admin'
+    | '/leaderboard'
+    | '/tierlist'
+    | '/api/public/bot-tiers'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -67,6 +87,7 @@ export interface RootRouteChildren {
   AdminRoute: typeof AdminRoute
   LeaderboardRoute: typeof LeaderboardRoute
   TierlistRoute: typeof TierlistRoute
+  ApiPublicBotTiersRoute: typeof ApiPublicBotTiersRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -99,6 +120,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/bot-tiers': {
+      id: '/api/public/bot-tiers'
+      path: '/api/public/bot-tiers'
+      fullPath: '/api/public/bot-tiers'
+      preLoaderRoute: typeof ApiPublicBotTiersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -107,17 +135,8 @@ const rootRouteChildren: RootRouteChildren = {
   AdminRoute: AdminRoute,
   LeaderboardRoute: LeaderboardRoute,
   TierlistRoute: TierlistRoute,
+  ApiPublicBotTiersRoute: ApiPublicBotTiersRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
