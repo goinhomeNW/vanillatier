@@ -25,6 +25,8 @@ export const Route = createFileRoute("/leaderboard")({
 
 function LeaderboardPage() {
   const [selected, setSelected] = useState<string | null>(null);
+  useEffect(() => { triggerBotSync(); }, []);
+
   return (
     <div className="min-h-screen">
       <Header />
