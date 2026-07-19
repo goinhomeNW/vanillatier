@@ -11,8 +11,12 @@ const CORS = {
 const VALID_TIERS = new Set([
   "HT1","LT1","HT2","LT2","HT3","LT3","HT4","LT4","HT5","LT5",
 ]);
+const RETIRABLE = new Set(["HT1","LT1","HT2","LT2"]);
 const VALID_REGIONS = new Set(["NA","EU","AS","SA","OCE","AF"]);
 
+function hasRetiredMark(v: unknown): boolean {
+  return typeof v === "string" && /^\(R\)/i.test(v.trim());
+}
 function cleanTier(v: unknown): string | null {
   if (typeof v !== "string") return null;
   const t = v.replace(/^\(R\)/i, "").trim().toUpperCase();
@@ -50,12 +54,15 @@ async function fetchBotPlayers(): Promise<Normalized[]> {
       const region = (p.region ?? "").toUpperCase();
       const name = (p.name ?? "").trim();
       if (!name) return null;
+      const retiredRaw =
+        !!p.retired || hasRetiredMark(p.peaks?.vanilla) || hasRetiredMark(p.tiers?.vanilla);
+      const retired = retiredRaw && !!peak && RETIRABLE.has(peak);
       return {
         username: name,
         region: VALID_REGIONS.has(region) ? region : "EU",
         currentTier: current,
         peakTier: peak,
-        retired: !!p.retired,
+        retired,
       };
     })
     .filter((p): p is Normalized => p !== null);

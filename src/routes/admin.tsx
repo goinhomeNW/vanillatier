@@ -309,12 +309,14 @@ function PlayerEditor({ player, onClose }: { player: Player | null; onClose: () 
             <TierSelect value={peakTier} onChange={setPeakTier} />
           </Field>
 
-          <div className="sm:col-span-2">
-            <label className="flex items-center gap-2 select-none">
-              <input type="checkbox" checked={retired} onChange={(e) => setRetired(e.target.checked)} className="accent-primary" />
-              <span className="text-sm">Retired <span className="text-muted-foreground text-xs">(only allowed for LT2/HT2/LT1/HT1)</span></span>
-            </label>
-          </div>
+          {peakTier && RETIRABLE_TIERS.includes(peakTier) && (
+            <div className="sm:col-span-2">
+              <label className="flex items-center gap-2 select-none">
+                <input type="checkbox" checked={retired} onChange={(e) => setRetired(e.target.checked)} className="accent-primary" />
+                <span className="text-sm">Retired <span className="text-muted-foreground text-xs">(only allowed for LT2/HT2/LT1/HT1)</span></span>
+              </label>
+            </div>
+          )}
 
           <div className="sm:col-span-2">
             <Field label="Admin notes">
