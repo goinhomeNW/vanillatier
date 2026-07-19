@@ -52,13 +52,16 @@ export const Route = createFileRoute("/api/public/bot-tiers")({
               const peak = cleanTier(p.peaks?.vanilla) ?? current;
               if (!current && !peak) return null;
               const region = (p.region ?? "").toUpperCase();
+              const retiredRaw =
+                !!p.retired || hasRetiredMark(p.peaks?.vanilla) || hasRetiredMark(p.tiers?.vanilla);
+              const retired = retiredRaw && !!peak && RETIRABLE.has(peak);
               return {
                 uuid: p.uuid ?? "",
                 username: p.name ?? "",
                 region: VALID_REGIONS.has(region) ? region : "EU",
                 currentTier: current,
                 peakTier: peak,
-                retired: !!p.retired,
+                retired,
               };
             })
             .filter((p): p is NonNullable<typeof p> => !!p && !!p.username);
