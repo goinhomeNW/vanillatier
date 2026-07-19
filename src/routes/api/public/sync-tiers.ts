@@ -54,12 +54,15 @@ async function fetchBotPlayers(): Promise<Normalized[]> {
       const region = (p.region ?? "").toUpperCase();
       const name = (p.name ?? "").trim();
       if (!name) return null;
+      const retiredRaw =
+        !!p.retired || hasRetiredMark(p.peaks?.vanilla) || hasRetiredMark(p.tiers?.vanilla);
+      const retired = retiredRaw && !!peak && RETIRABLE.has(peak);
       return {
         username: name,
         region: VALID_REGIONS.has(region) ? region : "EU",
         currentTier: current,
         peakTier: peak,
-        retired: !!p.retired,
+        retired,
       };
     })
     .filter((p): p is Normalized => p !== null);
